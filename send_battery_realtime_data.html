@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>BATTERY</title>
+  </head>
+  <body>
+    
+    
+        <div class="container">
+            <div class="row">
+                <div class="col d-flex justify-content-center">
+                    <form id="myForm">
+                        <div class="p-5 text-center bg-light">
+                            <h1 class="mb-3">SEND BATTERY RELATED DATA</h1>
+                          </div>
+                          <div class="form-row">
+                            <div class="form-group col-md-6">
+                              <label for="inputEmail4">BATTEY RFID</label>
+                              <input type="text" class="form-control" id="batrfid" placeholder="ID">
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label for="inputPassword4">STATE</label>
+                              <input type="text" class="form-control" id="liveState" placeholder="CCID">
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label for="inputPassword4">VOLT</label>
+                              <input type="text" class="form-control" id="volt" placeholder="Assigned to">
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label for="inputPassword4">CURRENT</label>
+                              <input type="text" class="form-control" id="current" placeholder="Voltage">
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label for="inputPassword4">TEMPRATURE</label>
+                              <input type="text" class="form-control" id="temprature" placeholder="Current">
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label for="inputPassword4">LATITUDE</label>
+                              <input type="text" class="form-control" id="latitude" placeholder="Teampreture">
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label for="inputEmail4">LONGITUDE</label>
+                              <input type="text" class="form-control" id="longitude" placeholder="Longitude">
+                            </div>
+                            
+                          <div>
+                            <button type="submit" onclick="addToObject()"  class="btn btn-primary"  >Submit</button>
+                          </div>
+                      </form>
+                </div>
+            </div>
+        </div>
+
+        <script>
+
+document.getElementById("myForm").addEventListener("submit", handleSubmit);
+
+function handleSubmit(event) {
+  event.preventDefault(); 
+
+  var BATRF = document.getElementById("batrfid").value;
+    var LIVESATE = document.getElementById("liveState").value;
+    var VOLT = document.getElementById("volt").value;
+    var CURRENT = document.getElementById("current").value;
+    var TEMPRATURE = document.getElementById("temprature").value;
+    var LAT = document.getElementById("latitude").value;
+    var LOG = document.getElementById("longitude").value;
+
+
+
+var finalString = BATRF+'_'+LIVESATE+'_'+VOLT+'_'+CURRENT+'_'+TEMPRATURE+'_'+LAT+'_'+LOG
+
+console.log("Final Data",finalString)
+
+fetch('http://192.168.1.248:8080/api/battery/push/'+finalString , {
+    method: 'GET',
+    headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+    }
+})
+    .then(function (response) {
+        return response.json()
+    })
+    .then(function (data) {
+        console.log(data)
+
+
+    }).catch(error => console.error('Error:', error));
+
+
+
+}
+    </script>
+
+
+
+
+<!-- <script src="/battery.js"></script> -->
+    
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>
